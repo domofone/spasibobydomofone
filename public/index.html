@@ -3,438 +3,346 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Проект "Спасибо": Где Слышат Каждое Слово</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Общие стили и сброс */
-        :root {
-            --color-dark-blue: #0e0e1a; /* Основной фон, очень темный */
-            --color-navy: #1a1a2e; /* Фон блоков */
-            --color-accent-purple: #8A2BE2; /* Яркий фиолетовый для акцентов (как в оригинале) */
-            --color-text-light: #e0e0f8; /* Светлый текст */
-            --color-text-medium: #a0a0c0; /* Серый текст */
-            --font-main: 'Poppins', sans-serif;
-        }
+    <title>Проект "Спасибо": Платформа Теплых Слов</title>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --color-light: #f8f9fa;      /* Светлый фон */
+            --color-white: #ffffff;      /* Белый фон */
+            --color-primary: #007bff;    /* Основной акцентный синий */
+            --color-secondary: #6c757d;  /* Дополнительный серый */
+            --color-accent: #ff4081;     /* Яркий акцент для кнопок (розовый) */
+            --font-main: 'Montserrat', sans-serif;
         }
 
         body {
             font-family: var(--font-main);
-            color: var(--color-text-light);
-            background-color: var(--color-dark-blue);
-            line-height: 1.6;
+            background-color: var(--color-light);
+            color: #212529;
+            overflow-x: hidden; /* Важно для AOS */
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        a {
-            color: var(--color-accent-purple);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        a:hover {
-            color: #af60f0;
+        h1, h2, h3, h4 {
+            font-weight: 700;
         }
 
         /* Навигация */
-        .header {
-            padding: 20px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .navbar-brand {
+            font-weight: 800;
+            color: var(--color-accent) !important;
         }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--color-text-light);
-        }
-
-        .nav-links a {
-            margin-left: 30px;
-            color: var(--color-text-medium);
+        .btn-accent {
+            background-color: var(--color-accent);
+            border-color: var(--color-accent);
+            color: var(--color-white);
             font-weight: 600;
+            transition: all 0.3s ease-in-out;
         }
 
-        .nav-button {
-            background-color: var(--color-accent-purple);
-            color: var(--color-text-light);
-            padding: 8px 18px;
-            border-radius: 5px;
-            font-weight: 600;
-            transition: background-color 0.3s;
-        }
-
-        .nav-button:hover {
-            background-color: #6a0dad;
-        }
-
-        /* Главный экран */
-        .hero {
-            text-align: center;
-            padding: 100px 0 80px;
-            position: relative;
-            overflow: hidden;
-            /* Имитация фона как на оригинальном изображении */
-            background-image: linear-gradient(rgba(14, 14, 26, 0.7), rgba(14, 14, 26, 0.9)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><filter id="f1" x="0" y="0" width="200%" height="200%"><feGaussianBlur in="SourceGraphic" stdDeviation="1" /></filter></defs><rect width="100" height="100" fill="%231A1A2E"/><circle cx="30" cy="70" r="25" fill="%238A2BE2" filter="url(%23f1)" opacity="0.1"/><circle cx="80" cy="40" r="30" fill="%238A2BE2" filter="url(%23f1)" opacity="0.15"/></svg>');
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: center;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
-        .hero h3 {
-            font-size: 1.4rem;
-            font-weight: 400;
-            color: var(--color-text-medium);
-            max-width: 700px;
-            margin: 0 auto 40px;
-        }
-
-        .btn-primary {
-            background-color: var(--color-accent-purple);
-            color: var(--color-text-light);
-            padding: 12px 30px;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            display: inline-block;
-            transition: background-color 0.3s, transform 0.2s;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn-primary:hover {
-            background-color: #6a0dad;
+        .btn-accent:hover {
+            background-color: #e0005a;
+            border-color: #e0005a;
             transform: translateY(-2px);
+            color: var(--color-white);
         }
 
-        /* Блок "Что такое..." */
-        .section-intro {
-            padding: 60px 0;
-        }
-
-        .section-intro h2 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .intro-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 40px;
+        /* Герой (Первый экран) */
+        .hero-section {
+            background: linear-gradient(135deg, #f0f4ff 0%, #ffffff 100%);
+            padding: 150px 0;
+            min-height: 80vh;
+            display: flex;
             align-items: center;
         }
 
-        .intro-text p {
-            font-size: 1.1rem;
-            color: var(--color-text-medium);
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--color-primary);
         }
 
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            padding: 40px 0 80px;
-        }
-
-        .feature-card {
-            background-color: var(--color-navy);
-            padding: 30px;
-            border-radius: 12px;
-            min-height: 220px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: background-color 0.3s;
-        }
-
-        .feature-card:hover {
-            background-color: #2c2c4a;
-        }
-
-        .feature-card h3 {
-            color: var(--color-accent-purple);
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .feature-card p {
-            color: var(--color-text-medium);
-            font-size: 0.95rem;
-        }
-
-        /* Блоки Use Cases и Business */
-        .section-blocks {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 40px;
-            padding-bottom: 80px;
-        }
-
-        .block-card {
-            background-color: var(--color-navy);
-            padding: 40px;
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .block-card h2 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-            color: var(--color-text-light);
-        }
-
-        .block-card p {
-            color: var(--color-text-medium);
+        /* Блоки с преимуществами */
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--color-accent);
             margin-bottom: 15px;
         }
 
-        /* Блок Этап развития */
-        .section-development {
-            background-color: #151525;
-            padding: 80px 0;
-            text-align: center;
+        .feature-card {
+            background-color: var(--color-white);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 100%;
         }
 
-        .development-text h2 {
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Блок развития */
+        .development-section {
+            background-color: #e9ecef; /* Светло-серый фон */
+            padding: 80px 0;
+        }
+        
+        .development-title {
+            color: var(--color-primary);
             font-size: 2.5rem;
             margin-bottom: 20px;
-            color: var(--color-accent-purple);
         }
 
-        .development-text p {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto 40px;
-            color: var(--color-text-light);
+        /* Использование и Роль */
+        .block-card-light {
+            background-color: var(--color-white);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+            padding: 30px;
         }
 
         /* Таймер */
         .timer-section {
-            text-align: center;
-            padding: 60px 0 100px;
-        }
-
-        .timer-section h2 {
-            font-size: 2rem;
-            margin-bottom: 30px;
+            padding: 80px 0;
+            background-color: var(--color-white);
         }
 
         .countdown-timer {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
             font-size: 3rem;
-            font-weight: 700;
-            color: var(--color-accent-purple);
+            font-weight: 800;
+            color: var(--color-primary);
         }
 
         .timer-unit {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: var(--color-navy);
-            padding: 20px 30px;
+            background-color: var(--color-light);
+            padding: 20px 10px;
             border-radius: 10px;
-            min-width: 120px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
         }
 
         .timer-label {
             font-size: 0.9rem;
-            font-weight: 400;
-            color: var(--color-text-medium);
+            font-weight: 600;
+            color: var(--color-secondary);
+            display: block;
             margin-top: 5px;
         }
 
-        /* Адаптивность */
-        @media (max-width: 992px) {
-            .intro-grid {
-                grid-template-columns: 1fr;
-            }
-            .features-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .section-blocks {
-                grid-template-columns: 1fr;
-            }
-            .hero h1 {
+        /* Медиа-запросы для адаптивности */
+        @media (max-width: 768px) {
+            .hero-title {
                 font-size: 2.5rem;
             }
-        }
-
-        @media (max-width: 600px) {
-            .nav-links {
-                display: none;
-            }
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
             .countdown-timer {
-                flex-wrap: wrap;
-                gap: 15px;
-            }
-            .timer-unit {
-                min-width: 100px;
-                padding: 15px 20px;
+                font-size: 2rem;
             }
         }
     </style>
 </head>
 <body>
 
-    <header class="header container">
-        <div class="logo">СПАСИБО</div>
-        <nav class="nav-links">
-            <a href="#about">О Проекте</a>
-            <a href="#development">Развитие</a>
-            <a href="#usecases">Применение</a>
-            <a href="#" class="nav-button">Сказать Спасибо</a>
-        </nav>
-    </header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">СПАСИБО</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#about">О Проекте</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#development">Этап развития</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#usecases">Применение</a></li>
+                    <li class="nav-item ps-lg-3">
+                        <a class="btn btn-accent" href="#">Сказать Спасибо</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
     <main>
-        <section class="hero">
+        <section class="hero-section">
             <div class="container">
-                <h1>Где Слышат Каждое Слово</h1>
-                <h3>Программная, искренняя инициатива, созданная, чтобы сделать благодарность и поддержку доступными и значимыми даже в самые трудные моменты.</h3>
-                <a href="#about" class="btn-primary">Узнать, как работает "Спасибо"</a>
-            </div>
-        </section>
-
-        <section id="about" class="section-intro container">
-            <div class="intro-grid">
-                <div class="intro-text">
-                    <h2>Что такое проект "Спасибо"?</h2>
-                    <p>Проект "Спасибо" – это пространство, где слова благодарности и поддержки обретают вес. Мы помогаем Вам быть **услышанными** и напоминаем, что даже самое маленькое "спасибо" может стать опорой в сложной ситуации.</p>
-                    <a href="#development" style="margin-top: 20px; display: inline-block;">Узнать о нашей миссии →</a>
-                </div>
-            </div>
-
-            <div class="features-grid">
-                <div class="feature-card">
-                    <h3>Слово, которое меняет жизнь</h3>
-                    <p>Выражайте искреннюю благодарность или просите о поддержке, когда это действительно нужно. Получайте моральную "отдачу" и чувство связи.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>Всегда актуально, всегда доступно</h3>
-                    <p>Независимо от времени и места, Вы можете отправить или получить сообщение, когда это жизненно важно. Наша платформа — Ваша тихая гавань.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>100% фокус на эмоциях</h3>
-                    <p>Вам не нужно беспокоиться о механизмах. Просто говорите "Спасибо" или "Мне нужна поддержка". Мы обеспечим конфиденциальность и доставку.</p>
-                </div>
-            </div>
-        </section>
-        
-        <section id="development" class="section-development">
-            <div class="container development-text">
-                <h2>Наш Путь: От Голоса к Платформе</h2>
-                <p>
-                    Мы начинаем с самого простого и личного — **возможности записать голосовое "Спасибо"**. Это Ваш первый шаг к искренности. Вследствие развития, проект трансформируется в "Платформу Тёплых Слов", предлагая текстовые сообщения, анонимную поддержку и инструменты для создания культуры благодарности в сообществах.
-                </p>
-                <p>
-                    Мы растем вместе с Вашими словами, чтобы каждый человек мог чувствовать себя услышанным и ценным.
-                </p>
-                <a href="#" class="btn-primary">Посмотреть Roadmap</a>
-            </div>
-        </section>
-
-
-        <section id="usecases" class="container">
-             <div class="section-blocks">
-                <div class="block-card">
-                    <h2>Примеры использования</h2>
-                    <p>Проект "Спасибо" предлагает различные сценарии для людей, команд и сообществ, желающих наладить глубокую эмоциональную связь и культуру благодарности.</p>
-                    
-                    <p><strong>Для Личности:</strong> Вы не знаете, как сказать "Спасибо" за небольшую, но важную помощь в трудный день, или просто чувствуете себя одиноко и нуждаетесь в словах поддержки.</p>
-                    
-                    <p><strong>Для Сообщества:</strong> Установите внутренний канал, где члены группы могут анонимно выразить признательность за моральную поддержку или важную работу.</p>
-                    <a href="#" class="btn-primary" style="margin-top: auto;">Узнать больше</a>
-                </div>
-                
-                <div class="block-card">
-                    <h2>Роль в Обществе</h2>
-                    <p><strong>Усиление Человечности.</strong> Проект "Спасибо" помогает обществу, создавая безопасную и позитивную платформу для **взаимной поддержки** и **морального подъема**.</p>
-                    <p>Мы верим, что культура искренней благодарности и внимания к чужим трудностям — это основа здорового общества. Вовлекайте свою аудиторию, предлагая им простой и мощный инструмент для выражения эмоций.</p>
-                    <a href="#" class="btn-primary" style="margin-top: auto;">Присоединиться к Миссии</a>
+                <div class="row align-items-center">
+                    <div class="col-lg-7" data-aos="fade-right" data-aos-duration="1000">
+                        <h1 class="hero-title">Где Слышат Каждое Слово</h1>
+                        <p class="lead text-secondary mt-3 mb-4">
+                            Программная, искренняя инициатива, созданная, чтобы сделать **благодарность и поддержку** доступными и значимыми даже в самые трудные моменты.
+                        </p>
+                        <a href="#about" class="btn btn-lg btn-accent me-2">Узнать, как работает "Спасибо"</a>
+                        <a href="#" class="btn btn-lg btn-outline-primary">Начать прямо сейчас</a>
+                    </div>
+                    <div class="col-lg-5 text-center mt-4 mt-lg-0" data-aos="fade-left" data-aos-duration="1000">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="var(--color-accent)" class="bi bi-chat-heart-fill" viewBox="0 0 16 16">
+                            <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 1.468.423 2.85 1.15 4.026.177.377.366.732.54 1.054.406.77.72 1.34 1.006 1.761.32.474.653.864 1.049 1.19.01.007.03.018.064.041.1.066.183.127.275.195.066.05.132.1.2.155.074.053.143.102.222.148.118.068.232.13.359.186.045.02.087.037.13.053.16.056.324.103.495.148.068.018.134.03.203.04.1.015.201.025.304.032.067.005.13.008.196.012.16.01.32.015.487.016.075 0 .148-.002.223-.005.148-.007.295-.018.44-.035.066-.008.13-.016.195-.026.07-.01.134-.022.2-.036.143-.03.277-.065.405-.11.1-.035.194-.07.288-.11.082-.036.16-.075.236-.12.06-.036.115-.075.17-.116.072-.053.138-.11.203-.17.06-.057.114-.118.165-.18.063-.075.123-.153.18-.235.053-.078.1-.157.143-.242.046-.08.085-.16.12-.245.035-.084.067-.17.095-.258.028-.088.052-.177.073-.27.02-.093.037-.187.052-.28.014-.094.026-.19.035-.286.01-.097.017-.194.023-.293.007-.1.012-.2.016-.302.004-.102.006-.205.007-.308.007-.103.007-.207.006-.31zm-6.25 7.42-.71-.71c-1.39-1.39-2.288-2.583-2.288-3.32 0-.67.458-1.077 1.09-1.077.396 0 .687.164.877.387.202.24.363.538.497.886.133.348.236.702.327 1.076.09.373.167.744.24 1.127.073.383.14.774.204 1.168.064.394.12.79.176 1.189.055.398.106.79.155 1.185.048.396.09.79.124 1.18.033.39.054.77.064 1.144-.007.086-.014.172-.02.257-.006.084-.012.167-.02.25-.008.083-.016.166-.027.248-.01.083-.02.165-.03.247-.01.082-.023.163-.036.244-.014.081-.028.162-.045.242-.016.08-.035.158-.056.236-.02.078-.044.155-.07.23-.027.076-.057.152-.09.226-.034.074-.07.147-.11.218-.04.07-.085.138-.13.204-.047.066-.095.129-.15.19-.055.06-.115.118-.177.174-.06.055-.125.107-.19.157-.066.049-.136.096-.206.139-.07.043-.142.083-.217.12-.075.037-.152.072-.23.104-.078.032-.158.062-.24.089-.08.027-.163.052-.246.075-.083.022-.167.043-.252.061-.086.018-.172.034-.26.048-.087.014-.175.026-.265.037-.09.01-.18.018-.273.025-.09.007-.183.012-.276.016-.095.003-.19.006-.285.007-.1.003-.2.004-.302.004-.105 0-.21-.002-.315-.005-.105-.004-.21-.01-.315-.018-.105-.008-.21-.02-.315-.035-.105-.015-.21-.035-.315-.057-.105-.022-.21-.047-.315-.075-.105-.028-.21-.06-.315-.095-.105-.035-.21-.075-.315-.12c-.105-.045-.21-.097-.315-.155-.105-.058-.21-.122-.315-.194-.105-.072-.21-.152-.315-.24-.105-.088-.21-.184-.315-.29-.105-.106-.21-.223-.315-.35-.105-.127-.21-.266-.315-.417-.105-.15-.21-.314-.315-.49-.105-.176-.21-.366-.315-.57-.105-.205-.21-.425-.315-.66-.105-.235-.21-.486-.315-.755-.105-.27-.21-.557-.315-.86-.105-.304-.21-.624-.315-.96-.105-.336-.21-.693-.315-1.07-.105-.377-.21-.786-.315-1.228-.105-.443-.21-.92-.315-1.433-.105-.513-.21-1.066-.315-1.66z"/>
+                        </svg>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="timer-section container">
-            <h2>Не откладывайте слова, которые могут спасти чей-то день.</h2>
-            <p style="color: var(--color-accent-purple); font-size: 1.2rem; margin-bottom: 15px;">До официального запуска Платформы Тёплых Слов:</p>
-            <div id="countdown" class="countdown-timer">
-                <div class="timer-unit"><span id="days">00</span><span class="timer-label">Дней</span></div>
-                <div class="timer-unit"><span id="hours">00</span><span class="timer-label">Часов</span></div>
-                <div class="timer-unit"><span id="minutes">00</span><span class="timer-label">Минут</span></div>
-                <div class="timer-unit"><span id="seconds">00</span><span class="timer-label">Секунд</span></div>
+        <section id="about" class="py-5">
+            <div class="container">
+                <h2 class="text-center mb-5 display-4">Слова, которые имеют значение</h2>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="feature-card p-4 text-center" data-aos="flip-left">
+                            <i class="feature-icon bi bi-hand-thumbs-up-fill"></i>
+                            <h4 class="mb-3">Поддержка, которая растет</h4>
+                            <p class="text-secondary">
+                                Выражайте искреннюю благодарность или просите о поддержке. Ваше слово — это капитал в нашей экосистеме.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-card p-4 text-center" data-aos="flip-left" data-aos-delay="200">
+                            <i class="feature-icon bi bi-globe"></i>
+                            <h4 class="mb-3">Связь без барьеров</h4>
+                            <p class="text-secondary">
+                                Актуальность 24/7. Отправляйте или получайте сообщение, когда это жизненно важно. Мы — Ваша тихая гавань.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-card p-4 text-center" data-aos="flip-left" data-aos-delay="400">
+                            <i class="feature-icon bi bi-heart-fill"></i>
+                            <h4 class="mb-3">Фокус на эмоциях</h4>
+                            <p class="text-secondary">
+                                Просто скажите "Спасибо" или "Мне нужна поддержка". Мы обеспечим модерацию, конфиденциальность и доставку.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="development" class="development-section">
+            <div class="container text-center" data-aos="fade-up" data-aos-duration="1500">
+                <h2 class="development-title mb-4">Наш Путь: От Голоса к Платформе</h2>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <p class="lead mb-4">
+                            Мы начинаем с самого личного — **возможности записать голосовое "Спасибо"**. Это Ваш первый шаг к искренности.
+                        </p>
+                        <p class="fs-5 text-secondary">
+                            Вследствие развития, проект трансформируется в "Платформу Тёплых Слов", предлагая текстовые сообщения, анонимную поддержку, инструменты для создания культуры благодарности в сообществах и мощный механизм эмоционального обмена.
+                        </p>
+                        <a href="#" class="btn btn-accent mt-3">Посмотреть Roadmap проекта</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="usecases" class="py-5">
+            <div class="container">
+                <div class="row g-4">
+                    <div class="col-lg-6" data-aos="fade-up">
+                        <div class="block-card-light p-4">
+                            <h3 class="text-primary mb-3">Примеры использования</h3>
+                            <p class="lead">Платформа "Спасибо" предлагает универсальные сценарии для налаживания глубокой эмоциональной связи.</p>
+                            
+                            <h5 class="mt-4">Для Личности</h5>
+                            <p class="text-secondary">Вы не знаете, как сказать "Спасибо" за помощь в трудный день, или просто нуждаетесь в словах поддержки, чтобы преодолеть одиночество.</p>
+                            
+                            <h5 class="mt-4">Для Сообщества и Команды</h5>
+                            <p class="text-secondary">Создайте внутренний канал, где коллеги или члены группы могут анонимно выразить признательность за моральную поддержку или важную работу, укрепляя командный дух.</p>
+                            <a href="#" class="btn btn-outline-secondary mt-3">Узнать больше о применении</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+                        <div class="block-card-light p-4">
+                            <h3 class="text-primary mb-3">Роль в Обществе</h3>
+                            <p class="lead"><strong>Усиление Человечности.</strong> Проект "Спасибо" помогает обществу, создавая безопасную и позитивную платформу.</p>
+                            
+                            <p class="fs-5 mt-4">Мы верим, что культура искренней благодарности и внимания к чужим трудностям — это основа здорового и сплоченного общества.</p>
+                            <ul class="list-unstyled mt-3">
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Создание позитивной среды</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Борьба с эмоциональным выгоранием</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Вовлечение аудитории через эмоции</li>
+                            </ul>
+                            <a href="#" class="btn btn-accent mt-3">Присоединиться к Миссии</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="timer-section text-center">
+            <div class="container">
+                <h2 class="mb-4">Не откладывайте слова, которые могут спасти чей-то день.</h2>
+                <p class="fs-5 text-primary mb-4">До официального запуска Платформы Тёплых Слов осталось:</p>
+                <div id="countdown" class="row justify-content-center text-center countdown-timer g-3" data-aos="zoom-in">
+                    <div class="col-6 col-md-2 timer-unit shadow-sm"><span id="days">00</span><span class="timer-label">Дней</span></div>
+                    <div class="col-6 col-md-2 timer-unit shadow-sm"><span id="hours">00</span><span class="timer-label">Часов</span></div>
+                    <div class="col-6 col-md-2 timer-unit shadow-sm"><span id="minutes">00</span><span class="timer-label">Минут</span></div>
+                    <div class="col-6 col-md-2 timer-unit shadow-sm"><span id="seconds">00</span><span class="timer-label">Секунд</span></div>
+                </div>
             </div>
         </section>
     </main>
     
-    <footer style="text-align: center; padding: 30px 0; border-top: 1px solid var(--color-navy); color: var(--color-text-medium);">
-        &copy; 2025 Проект "Спасибо". Все права защищены.
+    <footer class="bg-dark text-white-50 py-4">
+        <div class="container text-center">
+            &copy; 2025 Проект "Спасибо". Все права защищены. <a href="#" class="text-white-50">Политика конфиденциальности.</a>
+        </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            once: true // Анимации проигрываются только один раз
+        });
+    </script>
+    
     <script>
         function updateCountdown() {
             // Установка целевой даты и времени (20 октября 2025 - 10:00:00)
             const targetDate = new Date("October 20, 2025 10:00:00").getTime();
             
-            // Получение текущего времени
             const now = new Date().getTime();
-            
-            // Расчет разницы
             const distance = targetDate - now;
 
-            // Расчет времени для дней, часов, минут и секунд
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            // Функция для добавления ведущего нуля
             const pad = (num) => num < 10 ? '0' + num : num;
 
             // Обновление элементов на странице
-            document.getElementById("days").innerHTML = pad(days);
-            document.getElementById("hours").innerHTML = pad(hours);
-            document.getElementById("minutes").innerHTML = pad(minutes);
-            document.getElementById("seconds").innerHTML = pad(seconds);
+            if (document.getElementById("days")) {
+                document.getElementById("days").innerHTML = pad(days);
+                document.getElementById("hours").innerHTML = pad(hours);
+                document.getElementById("minutes").innerHTML = pad(minutes);
+                document.getElementById("seconds").innerHTML = pad(seconds);
+            }
 
-            // Если время вышло, пишем сообщение
+
+            // Если время вышло
             if (distance < 0) {
                 clearInterval(countdownInterval);
-                document.getElementById("countdown").innerHTML = "ПЛАТФОРМА УЖЕ ЗАПУЩЕНА!";
-                document.getElementById("countdown").style.fontSize = "2rem";
-                document.getElementById("countdown").style.color = "#00FF00"; // Зеленый акцент
+                const countdownElement = document.getElementById("countdown");
+                if(countdownElement) {
+                    countdownElement.innerHTML = '<h3 class="text-success">ПЛАТФОРМА УЖЕ ЗАПУЩЕНА!</h3>';
+                }
             }
         }
 
-        // Вызываем функцию один раз, чтобы избежать задержки в 1 секунду при загрузке
+        // Вызываем функцию один раз, чтобы избежать задержки
         updateCountdown();
 
         // Обновление каждую секунду
         const countdownInterval = setInterval(updateCountdown, 1000);
     </script>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </body>
 </html>
