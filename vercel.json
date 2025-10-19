@@ -1,7 +1,11 @@
 {
   "rewrites": [
-    {"source": "/api/:path*", "destination": "/api/:path*"},
-    {"source": "/listen", "destination": "/listen.html"},
-    {"source": "/listen(.*)", "destination": "/listen.html"}
-  ]
+    {"source": "/api/bot", "destination": "/api/bot/index.js"},
+    {"source": "/api/send-email", "destination": "/api/send-email/index.js"}
+  ],
+  "functions": {
+    "api/bot/index.js": {
+      "includeFiles": "node_modules/**"
+    }
+  }
 }
