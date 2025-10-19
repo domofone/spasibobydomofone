@@ -273,6 +273,11 @@
         audioBlob = new Blob(chunks, { type: 'audio/webm' });
         chunks = [];
 
+        // Сохраняем в localStorage
+        const audioUrl = URL.createObjectURL(audioBlob);
+        const audioId = Date.now().toString(36) + Math.random().toString(36).substr(2);
+        localStorage.setItem(`audio_${audioId}`, audioUrl);
+
         showStatus('Запись завершена! Теперь можно отправить.', 'success');
       } else {
         // Начать запись
@@ -332,19 +337,12 @@
         return;
       }
 
-      // Отправляем аудио на сервер для сохранения
-      const formData = new FormData();
-      formData.append('audio', new File(chunks, 'voice.webm', { type: 'audio/webm' }));
+      // Генерируем уникальный ID
+      const audioId = Date.now().toString(36) + Math.random().toString(36).substr(2);
+      const listenUrl = `${window.location.origin}/listen?audio=${audioId}`;
 
-      fetch('/api/upload-audio', {
-        method: 'POST',
-        body: formData,
-      })
-        .then(response => response.json())
-        .then(data => {
-          const listenUrl = `${window.location.origin}/listen?audio=${data.audioId}`;
-          return sendEmail(email, listenUrl);
-        })
+      // Отправляем письмо
+      sendEmail(email, listenUrl)
         .then(() => {
           showStatus('Письмо отправлено! Получатель скоро услышит ваше сообщение.', 'success');
           setTimeout(() => {
