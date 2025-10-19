@@ -74,12 +74,15 @@
       document.getElementById('status').textContent = 'Ссылка недействительна.';
       document.getElementById('play-btn').disabled = true;
     } else {
-      document.getElementById('status').textContent = 'Заглушка: в реальном приложении здесь было бы ваше голосовое сообщение.';
-    }
+      const audioUrl = `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com/spasibo-audio/audio/${audioId}.webm`;
+      const audio = new Audio(audioUrl);
 
-    document.getElementById('play-btn').addEventListener('click', () => {
-      alert('В реальном приложении здесь воспроизводилось бы ваше голосовое сообщение.');
-    });
+      document.getElementById('play-btn').addEventListener('click', () => {
+        audio.play().catch(e => {
+          document.getElementById('status').textContent = 'Ошибка воспроизведения: ' + e.message;
+        });
+      });
+    }
   </script>
 </body>
 </html>
