@@ -7,6 +7,51 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Добавьте этот раздел перед </div> -->
+<section class="debug" style="background: white; padding: 20px; border-radius: 10px; margin-top: 20px; display: none;" id="debugSection">
+    <h3>🛠 Диагностика</h3>
+    <button onclick="checkWebhook()" class="cta-button" style="background: #666; margin: 5px;">
+        Проверить статус вебхука
+    </button>
+    <button onclick="setWebhook()" class="cta-button" style="background: #666; margin: 5px;">
+        Установить вебхук
+    </button>
+    <div id="debugResult" style="margin-top: 10px; padding: 10px; background: #f5f5f5; border-radius: 5px;"></div>
+</section>
+
+<script>
+// Показать диагностику при долгом нажатии на заголовок
+let tapCount = 0;
+document.querySelector('h1').addEventListener('click', function() {
+    tapCount++;
+    if (tapCount >= 5) {
+        document.getElementById('debugSection').style.display = 'block';
+        tapCount = 0;
+    }
+});
+
+async function checkWebhook() {
+    try {
+        const response = await fetch('/api/bot');
+        const result = await response.json();
+        document.getElementById('debugResult').innerHTML = 
+            '<pre>' + JSON.stringify(result, null, 2) + '</pre>';
+    } catch (error) {
+        document.getElementById('debugResult').innerHTML = 'Ошибка: ' + error;
+    }
+}
+
+async function setWebhook() {
+    try {
+        const response = await fetch('/api/set-webhook', { method: 'POST' });
+        const result = await response.json();
+        document.getElementById('debugResult').innerHTML = 
+            'Webhook установлен: ' + JSON.stringify(result, null, 2);
+    } catch (error) {
+        document.getElementById('debugResult').innerHTML = 'Ошибка: ' + error;
+    }
+}
+</script>
     <div class="container">
         <header>
             <h1>❤️ Спасибо</h1>
@@ -77,3 +122,4 @@
     </script>
 </body>
 </html>
+
