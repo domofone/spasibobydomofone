@@ -1,5 +1,7 @@
-import { put } from '@vercel/blob';
 import busboy from 'busboy';
+
+// Используем временное хранилище в памяти
+const storage = new Map();
 
 export const config = {
   api: {
@@ -14,12 +16,9 @@ export default async function handler(req, res) {
 
   const bb = busboy({ headers: req.headers });
   let audioFileBuffer;
-  let audioFileName;
 
   bb.on('file', (fieldname, file, info) => {
     if (fieldname === 'audio') {
-      const { filename, mimeType } = info;
-      audioFileName = filename;
       const chunks = [];
       file.on('data', (data) => chunks.push(data));
       file.on('end', () => {
@@ -34,19 +33,16 @@ export default async function handler(req, res) {
     }
 
     const audioId = Date.now().toString(36) + Math.random().toString(36).substr(2);
-    const fileName = `${audioId}.webm`;
 
-    try {
-      const blob = await put(fileName, audioFileBuffer, {
-        access: 'public',
-        contentType: 'audio/webm',
-      });
+    // Сохраняем в памяти на 1 час
+    storage.set(audioId, audioFileBuffer);
 
-      res.status(200).json({ audioId, url: blob.url });
-    } catch (error) {
-      console.error('Upload error:', error);
-      res.status(500).json({ error: 'Upload failed' });
-    }
+    // Удаляем через 1 час
+    setTimeout(() => {
+      storage.delete(audioId);
+    }, 60 * 60 * 1000);
+
+    res.status(200).json({ audioId });
   });
 
   req.pipe(bb);
