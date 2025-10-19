@@ -1,14 +1,5 @@
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { put } from '@vercel/blob';
 import busboy from 'busboy';
-
-const client = new S3Client({
-  region: 'auto',
-  endpoint: `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
-  credentials: {
-    accessKeyId: process.env.R2_ACCESS_KEY_ID,
-    secretAccessKey: process.env.R2_SECRET_ACCESS_KEY,
-  },
-});
 
 export const config = {
   api: {
@@ -43,17 +34,15 @@ export default async function handler(req, res) {
     }
 
     const audioId = Date.now().toString(36) + Math.random().toString(36).substr(2);
-    const key = `audio/${audioId}.webm`;
+    const fileName = `${audioId}.webm`;
 
     try {
-      await client.send(new PutObjectCommand({
-        Bucket: process.env.R2_BUCKET_NAME,
-        Key: key,
-        Body: audioFileBuffer,
-        ContentType: 'audio/webm',
-      }));
+      const blob = await put(fileName, audioFileBuffer, {
+        access: 'public',
+        contentType: 'audio/webm',
+      });
 
-      res.status(200).json({ audioId });
+      res.status(200).json({ audioId, url: blob.url });
     } catch (error) {
       console.error('Upload error:', error);
       res.status(500).json({ error: 'Upload failed' });
