@@ -73,25 +73,21 @@
       document.getElementById('status').textContent = 'Ссылка недействительна.';
       document.getElementById('play-btn').disabled = true;
     } else {
-      // Загружаем аудио с сервера
-      fetch(`/api/get-audio?id=${audioId}`)
-        .then(response => {
-          if (!response.ok) throw new Error('Аудио не найдено');
-          return response.blob();
-        })
-        .then(blob => {
-          const audioUrl = URL.createObjectURL(blob);
-          const audio = new Audio(audioUrl);
+      // Пытаемся получить аудио из localStorage
+      const audioUrl = localStorage.getItem(`audio_${audioId}`);
 
-          document.getElementById('play-btn').addEventListener('click', () => {
-            audio.play().catch(e => {
-              document.getElementById('status').textContent = 'Ошибка воспроизведения: ' + e.message;
-            });
+      if (!audioUrl) {
+        document.getElementById('status').textContent = 'Аудио не найдено. Ссылка устарела.';
+        document.getElementById('play-btn').disabled = true;
+      } else {
+        const audio = new Audio(audioUrl);
+
+        document.getElementById('play-btn').addEventListener('click', () => {
+          audio.play().catch(e => {
+            document.getElementById('status').textContent = 'Ошибка воспроизведения: ' + e.message;
           });
-        })
-        .catch(err => {
-          document.getElementById('status').textContent = 'Ошибка загрузки: ' + err.message;
         });
+      }
     }
   </script>
 </body>
