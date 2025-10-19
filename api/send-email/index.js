@@ -11,7 +11,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
-  const transporter = nodemailer.createTransport({
+  const transporter = nodemailer.createTransporter({
     host: process.env.SMTP_SERVER || 'smtp.gmail.com',
     port: parseInt(process.env.SMTP_PORT) || 587,
     secure: process.env.SMTP_PORT === '465', // true для 465, false для остальных
@@ -29,7 +29,7 @@ export default async function handler(req, res) {
       text: body,
     });
 
-    res.status(200).json({ message: 'Email sent successfully' });
+    res.status(200).json({ success: true, message: 'Email sent successfully' });
   } catch (error) {
     console.error('Error sending email:', error);
     res.status(500).json({ error: 'Failed to send email', details: error.message });
