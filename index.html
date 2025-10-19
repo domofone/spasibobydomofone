@@ -332,14 +332,19 @@
         return;
       }
 
-      // Генерируем уникальный ID
-      const uniqueId = Date.now().toString(36) + Math.random().toString(36).substr(2);
+      // Отправляем аудио на сервер для сохранения
+      const formData = new FormData();
+      formData.append('audio', new File(chunks, 'voice.webm', { type: 'audio/webm' }));
 
-      // Создаём ссылку на страницу прослушивания
-      const listenUrl = `${window.location.origin}/listen?audio=${uniqueId}`;
-
-      // Отправляем письмо через serverless функцию
-      sendEmail(email, listenUrl)
+      fetch('/api/upload-audio', {
+        method: 'POST',
+        body: formData,
+      })
+        .then(response => response.json())
+        .then(data => {
+          const listenUrl = `${window.location.origin}/listen?audio=${data.audioId}`;
+          return sendEmail(email, listenUrl);
+        })
         .then(() => {
           showStatus('Письмо отправлено! Получатель скоро услышит ваше сообщение.', 'success');
           setTimeout(() => {
@@ -348,7 +353,7 @@
           }, 1500);
         })
         .catch(err => {
-          showStatus('Ошибка отправки письма: ' + err.message, 'error');
+          showStatus('Ошибка отправки: ' + err.message, 'error');
         });
     });
 
@@ -411,7 +416,8 @@ ${listenUrl}
       });
 
       if (!response.ok) {
-        throw new Error('Не удалось отправить письмо');
+        const data = await response.json();
+        throw new Error(data.error || 'Не удалось отправить письмо');
       }
     }
   </script>
