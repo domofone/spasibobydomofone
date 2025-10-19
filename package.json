@@ -1,7 +1,6 @@
 {
   "dependencies": {
-    "aiogram": "^3.4.1",
-    "nodemailer": "^6.9.0",
-    "telegraf": "^4.15.0"
+    "telegraf": "^4.15.0",
+    "nodemailer": "^6.9.0"
   }
 }
