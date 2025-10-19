@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Спасибо - Проект благодарности</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>❤️ Спасибо</h1>
+            <p class="subtitle">Социальный проект благодарности</p>
+        </header>
+
+        <section class="hero">
+            <h2>Скажи "Спасибо" просто так</h2>
+            <p>За то, что у тебя есть дорогой человек. За тепло, поддержку и просто за то, что он есть в твоей жизни.</p>
+        </section>
+
+        <section class="how-it-works">
+            <h3>Как это работает?</h3>
+            <div class="steps">
+                <div class="step">
+                    <span>1</span>
+                    <p>Нажми кнопку ниже для инструкции</p>
+                </div>
+                <div class="step">
+                    <span>2</span>
+                    <p>Запиши голосовое сообщение с благодарностью</p>
+                </div>
+                <div class="step">
+                    <span>3</span>
+                    <p>Укажи email получателя</p>
+                </div>
+                <div class="step">
+                    <span>4</span>
+                    <p>Мы анонимно отправим твою благодарность!</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta">
+            <button onclick="sendInstruction()" class="cta-button">
+                📨 Отправить инструкцию в Telegram
+            </button>
+        </section>
+
+        <footer>
+            <p>С любовью к миру ❤️</p>
+        </footer>
+    </div>
+
+    <script>
+        function sendInstruction() {
+            const telegramUrl = `https://t.me/${getBotUsername()}/start`;
+            window.open(telegramUrl, '_blank');
+        }
+
+        function getBotUsername() {
+            // Замените на username вашего бота
+            return 'YourBotUsername_bot'; 
+        }
+    </script>
+</body>
+</html>
