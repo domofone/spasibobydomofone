@@ -342,7 +342,7 @@
       })
         .then(response => response.json())
         .then(data => {
-          const listenUrl = `${window.location.origin}/listen?audio=${data.audioId}`;
+          const listenUrl = `${window.location.origin}/listen?audio=${data.audioId}&url=${encodeURIComponent(data.url)}`; 
           return sendEmail(email, listenUrl);
         })
         .then(() => {
@@ -423,3 +423,4 @@ ${listenUrl}
   </script>
 </body>
 </html>
+
