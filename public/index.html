@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Проект "Спасибо": Платформа Поддержки</title>
+    <title>Проект "Спасибо": Социальная Платформа DomoFone</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="[https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap](https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap)" rel="stylesheet">
     
     <style>
         /* Цветовая палитра и переменные */
@@ -14,7 +14,7 @@
             --color-text-dark: #1E1E1E;        /* Очень темный текст */
             --color-text-medium: #6A6A6A;      /* Серый текст */
             --color-accent-purple: #8C6DFD;    /* Основной акцент (мягкий фиолетовый) */
-            --color-accent-dark: #322A59;      /* Фон темных карточек */
+            --color-accent-dark: #322A59;      /* Фон темных карточек (используется для hero) */
             --color-shadow-light: rgba(0, 0, 0, 0.05);
             --font-main: 'Inter', sans-serif;
             --border-radius: 20px;
@@ -41,6 +41,16 @@
             padding: 0 24px;
         }
 
+        a {
+            text-decoration: none;
+            color: var(--color-accent-purple);
+            transition: opacity 0.3s;
+        }
+
+        a:hover {
+            opacity: 0.8;
+        }
+
         /* Навигация */
         .header {
             padding: 24px 0;
@@ -55,19 +65,16 @@
             letter-spacing: -0.5px;
             color: var(--color-text-dark);
         }
+        .logo span {
+            color: var(--color-accent-purple);
+        }
 
         .nav-links a {
             margin-left: 30px;
             color: var(--color-text-dark);
             font-size: 0.95rem;
             font-weight: 500;
-            text-decoration: none;
             opacity: 0.8;
-            transition: opacity 0.3s;
-        }
-
-        .nav-links a:hover {
-            opacity: 1;
         }
 
         .btn-launch {
@@ -92,30 +99,52 @@
         }
 
         .hero-visual {
-            background: linear-gradient(180deg, rgba(230, 230, 255, 0.8) 0%, rgba(200, 200, 255, 0.5) 100%), var(--color-accent-dark);
+            background-color: var(--color-accent-dark); /* Fallback цвет */
             border-radius: var(--border-radius);
-            padding: 100px 40px;
             margin-top: 40px;
             position: relative;
             overflow: hidden;
-            /* Имитация 3D-сцены - нужно заменить на изображение */
-            min-height: 450px;
+            min-height: 450px; /* Чтобы изображение было видно */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            background-image: url('[https://i.imgur.com/k2oT34G.png](https://i.imgur.com/k2oT34G.png)'); /* Изображение 1 */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white; /* Для текста на фоне */
+            padding: 80px 40px; /* Внутренний отступ для контента */
+        }
+        
+        /* Затемнение для читаемости текста на Hero-изображении */
+        .hero-visual::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.5) 100%);
+            border-radius: var(--border-radius);
+            z-index: 1;
+        }
+        
+        .hero-visual > * { /* Контент поверх затемнения */
+            position: relative;
+            z-index: 2;
         }
 
         .hero-visual h1 {
             font-size: 3.5rem;
             font-weight: 800;
-            color: var(--color-background-light);
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            color: white; /* Убедимся, что цвет текста белый */
         }
 
         .hero-visual p {
             font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.9);
             max-width: 600px;
             margin-bottom: 30px;
         }
@@ -147,6 +176,7 @@
             font-size: 2.5rem;
             font-weight: 800;
             margin-bottom: 10px;
+            line-height: 1.2;
         }
 
         .what-is-left .btn-secondary {
@@ -168,6 +198,7 @@
             font-size: 1.25rem;
             font-weight: 500;
             line-height: 1.4;
+            color: var(--color-text-dark);
         }
         
         /* Карточки-преимущества */
@@ -181,21 +212,32 @@
         .feature-card {
             padding: 30px;
             border-radius: var(--border-radius);
-            min-height: 200px;
+            min-height: 220px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-        }
-
-        .feature-card.light {
             background-color: white;
             box-shadow: 0 10px 20px var(--color-shadow-light);
             border: 1px solid #EAEAEA;
+            position: relative;
+            overflow: hidden; /* Для изображений внутри */
         }
         
-        .feature-card.dark {
-            background-color: var(--color-accent-dark);
-            color: white;
+        .feature-card .card-image {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 100%; /* Или конкретный размер, если изображение маленькое */
+            height: 100%;
+            object-fit: cover; /* Или contain, в зависимости от желаемого эффекта */
+            opacity: 0.7; /* Для фонового эффекта */
+            z-index: 0;
+            border-radius: var(--border-radius);
+        }
+
+        .feature-card .content-wrapper {
+            position: relative;
+            z-index: 1;
         }
 
         .feature-card h4 {
@@ -210,65 +252,98 @@
             color: var(--color-text-medium);
         }
         
-        .feature-card.dark p {
-            color: rgba(255, 255, 255, 0.7);
+        /* Логотипы компаний */
+        .company-logos-section {
+            padding: 40px 0; 
+            border-top: 1px solid #EAEAEA; 
+            border-bottom: 1px solid #EAEAEA; 
+            text-align: center;
+        }
+        .company-logos-section p {
+            font-size: 0.9rem; 
+            color: var(--color-text-medium); 
+            margin-bottom: 20px;
+        }
+        .company-logos {
+            display: flex; 
+            justify-content: space-around; 
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .company-logos img {
+            height: 25px; /* Размер логотипов */
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+        .company-logos img:hover {
+            opacity: 0.8;
         }
 
         /* Блок развития (Этап 4) */
         .development-section {
-            padding: 60px 0;
+            padding: 80px 0;
             text-align: center;
+            background-color: white; /* Светлый фон для секции */
+            border-top: 1px solid #EAEAEA;
         }
         
         .development-section h2 {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 800;
-            margin-bottom: 40px;
-            color: var(--color-accent-purple);
+            margin-bottom: 50px;
+            color: var(--color-text-dark);
         }
         
         .development-content {
-            background-color: white;
-            padding: 40px;
-            border-radius: var(--border-radius);
-            box-shadow: 0 10px 30px var(--color-shadow-light);
+            display: flex;
+            flex-direction: column; /* Изменил на колонку для лучшей адаптивности */
+            gap: 40px; /* Расстояние между шагами */
+            max-width: 900px;
+            margin: 0 auto;
         }
 
         .development-step {
             display: flex;
-            align-items: center;
-            margin-bottom: 30px;
+            align-items: flex-start; /* Выравнивание элементов по верху */
             text-align: left;
-        }
-        
-        .development-step:last-child {
-            margin-bottom: 0;
+            background-color: var(--color-background-light); /* Фон для каждого шага */
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px var(--color-shadow-light);
+            border: 1px solid #F0F0F0;
         }
         
         .development-icon {
-            font-size: 2.5rem;
+            font-size: 2rem; /* Немного уменьшил размер */
             color: var(--color-accent-purple);
-            margin-right: 20px;
-            width: 50px;
+            margin-right: 25px;
+            width: 40px; /* Фиксированная ширина для иконки */
             flex-shrink: 0;
+            display: flex; /* Для центрирования иконки */
+            justify-content: center;
+            align-items: center;
+            height: 40px;
         }
         
         .development-text h3 {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 700;
-            color: var(--color-text-dark);
-            margin-bottom: 5px;
+            color: var(--color-accent-purple); /* Сделал заголовок фиолетовым */
+            margin-bottom: 8px;
         }
         
         .development-text p {
             color: var(--color-text-medium);
+            font-size: 1rem;
+            line-height: 1.5;
         }
 
         /* Блоки Use cases и Business */
         .section-blocks {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 40px;
+            gap: 30px; /* Немного уменьшил gap */
             padding: 80px 0 100px;
         }
 
@@ -277,7 +352,7 @@
             padding: 40px;
             border-radius: var(--border-radius);
             box-shadow: 0 10px 20px var(--color-shadow-light);
-            min-height: 450px; /* Для визуального соответствия */
+            min-height: 480px; /* Увеличил минимальную высоту */
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -286,41 +361,55 @@
         .block-card-alt h3 {
             font-size: 1.8rem;
             font-weight: 800;
-            margin-bottom: 20px;
+            margin-bottom: 15px; /* Уменьшил отступ */
         }
 
         .block-card-alt .caption {
             font-size: 1.1rem;
             color: var(--color-text-medium);
-            margin-bottom: 30px;
+            margin-bottom: 25px; /* Уменьшил отступ */
+            line-height: 1.4;
         }
         
         .block-card-alt .content p {
             color: var(--color-text-medium);
-            margin-bottom: 15px;
+            margin-bottom: 12px; /* Уменьшил отступ */
+            font-size: 0.95rem;
         }
         
         .btn-learn-more {
             color: var(--color-accent-purple);
             font-weight: 600;
-            text-decoration: none;
             display: inline-block;
-            margin-top: 15px;
+            margin-top: 20px; /* Увеличил отступ */
+            padding-bottom: 2px;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.3s;
+        }
+        .btn-learn-more:hover {
+            border-color: var(--color-accent-purple);
+            opacity: 1; /* Отменяем стандартный opacity для ссылки */
         }
         
         .block-card-alt .visual {
-            min-height: 150px; 
-            background: linear-gradient(160deg, #f0f0ff 0%, #e0e0f5 100%);
+            min-height: 180px; /* Увеличил высоту */
+            background-color: #f0f0f5; /* Базовый цвет */
             border-radius: 12px;
-            margin-top: 20px;
-            /* Плейсхолдер для 3D изображения */
+            margin-top: 30px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
-        
+        .block-card-alt .visual.bank {
+             background-image: url('[https://i.imgur.com/uTjTthh.png](https://i.imgur.com/uTjTthh.png)'); /* Изображение 3 */
+        }
+
+
         /* Таймер */
         .timer-section {
             text-align: center;
             padding: 60px 0 100px;
-            background-color: white;
+            background-color: var(--color-background-light); /* Светлый фон */
             border-top: 1px solid #EAEAEA;
         }
 
@@ -343,11 +432,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: var(--color-background-light);
+            background-color: white; /* Белый фон для таймера */
             padding: 20px 30px;
             border-radius: 10px;
             min-width: 100px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #F0F0F0;
         }
 
         .timer-label {
@@ -370,6 +460,17 @@
             .section-blocks {
                 grid-template-columns: 1fr;
             }
+            .nav-links {
+                display: none; /* Скрыть навигацию на малых экранах для мобильного меню */
+            }
+            .header {
+                justify-content: center; /* Центрировать логотип */
+            }
+            .btn-launch {
+                position: absolute; /* Позиционировать кнопку отдельно */
+                right: 24px;
+                top: 24px;
+            }
         }
 
         @media (max-width: 768px) {
@@ -378,6 +479,7 @@
             }
             .hero-visual {
                 padding: 60px 20px;
+                min-height: 350px;
             }
             .countdown-timer {
                 flex-wrap: wrap;
@@ -386,25 +488,29 @@
             .development-step {
                 flex-direction: column;
                 text-align: center;
+                align-items: center;
             }
             .development-icon {
                 margin: 0 0 15px 0;
+            }
+            .development-text {
+                margin-top: 10px;
             }
         }
     </style>
 </head>
 <body>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="[https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css](https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css)">
 
     <header class="header container">
-        <div class="logo">**+** СПАСИБО</div>
+        <div class="logo"><span>+</span> СПАСИБО <span style="font-size: 0.8em; opacity: 0.7;">(DomoFone)</span></div>
         <nav class="nav-links">
-            <a href="#about">Спасибо</a>
-            <a href="#development">Бизнес</a>
-            <a href="#">Казначейство</a>
-            <a href="#">Разработчикам</a>
-            <a href="#">Присоединиться</a>
+            <a href="#about">О проекте</a>
+            <a href="#development">Развитие</a>
+            <a href="#usecases">Применение</a>
+            <a href="#">Сообщество</a>
+            <a href="#">Наши партнеры</a>
         </nav>
         <a href="#" class="btn-launch">ЗАПУСК</a>
     </header>
@@ -415,119 +521,124 @@
                 <div class="hero-visual">
                     <h1>Где Растут Теплые Слова</h1>
                     <p>
-                        Программная, искренняя инициатива, разработанная для создания **непрерывного потока благодарности и поддержки** и бесшовной интеграции в повседневную жизнь.
+                        "Спасибо" — социальный проект DomoFone. Искренняя инициатива, разработанная для создания **непрерывного потока благодарности и поддержки** и бесшовной интеграции в повседневную жизнь каждого.
                     </p>
                     <a href="#about" class="btn-primary-hero">Узнайте сейчас</a>
-                    </div>
+                </div>
             </div>
         </section>
 
         <section id="about" class="container section-what-is">
             <div class="what-is-left">
-                <h2>Что такое Проект "Спасибо"?</h2>
+                <h2>Что такое Социальный Проект "Спасибо"?</h2>
                 <a href="#" class="btn-secondary">Узнать больше →</a>
             </div>
             <div class="what-is-right">
                 <p>
-                    "Спасибо" — это **платформа эмоционального обмена**, которая помогает Вам чувствовать себя услышанным и **поддерживать свой моральный капитал**, даже в трудные моменты.
+                    "Спасибо" — это инновационная **платформа эмоционального обмена от DomoFone**, которая помогает Вам чувствовать себя услышанным и **поддерживать свой моральный капитал**, превращая каждое "спасибо" в реальную поддержку и надежду, даже в самые трудные моменты.
                 </p>
             </div>
         </section>
         
         <section class="container features-grid">
             
-            <div class="feature-card light">
-                <h4>Капитал, который растет</h4>
-                <p>Ваши слова благодарности и поддержки накапливаются, создавая личный "фонд" моральной устойчивости и позитивной обратной связи, доступной в трудную минуту.</p>
-                <div style="background: linear-gradient(135deg, #e6e6ff 0%, #ffffff 100%); height: 80px; border-radius: 10px; margin-top: 20px;"></div>
+            <div class="feature-card">
+                <img src="[https://i.imgur.com/gK0S3fD.png](https://i.imgur.com/gK0S3fD.png)" alt="Растущий капитал" class="card-image">
+                <div class="content-wrapper">
+                    <h4>Капитал, который растет</h4>
+                    <p>Ваши слова благодарности и поддержки накапливаются, создавая личный "фонд" моральной устойчивости и позитивной обратной связи, доступной в трудную минуту. Каждый раз, когда вы выражаете признательность, вы инвестируете в добро.</p>
+                </div>
             </div>
 
-            <div class="feature-card dark">
-                <h4>Всегда ликвидный, всегда стабильный</h4>
-                <p>Поддержка доступна мгновенно — нет задержек и ограничений. Вы можете получить теплое слово или отправить его в любой момент.</p>
-                <div style="height: 80px; border-radius: 10px; margin-top: 20px;"></div>
+            <div class="feature-card">
+                <div class="content-wrapper">
+                    <h4>Всегда ликвидный, всегда стабильный</h4>
+                    <p>Поддержка доступна мгновенно — нет задержек и ограничений. Вы можете получить теплое слово или отправить его в любой момент, гарантируя своевременную эмоциональную помощь.</p>
+                </div>
             </div>
 
-            <div class="feature-card dark">
-                <h4>100% без рук</h4>
-                <p>Не нужно управлять стратегиями. Платформа "Спасибо" работает в фоновом режиме, обеспечивая доставку и модерацию искренних слов.</p>
-                <div style="height: 80px; border-radius: 10px; margin-top: 20px;"></div>
+            <div class="feature-card">
+                 <div class="content-wrapper">
+                    <h4>100% без рук</h4>
+                    <p>Вам не нужно беспокоиться о технических аспектах. Платформа "Спасибо" от DomoFone работает в фоновом режиме, обеспечивая доставку, модерацию и конфиденциальность искренних слов.</p>
+                </div>
             </div>
         </section>
         
-        <section class="container" style="padding: 40px 0; border-top: 1px solid #EAEAEA; border-bottom: 1px solid #EAEAEA; text-align: center;">
-            <p style="font-size: 0.9rem; color: var(--color-text-medium); margin-bottom: 20px;">
+        <section class="container company-logos-section">
+            <p>
                 Поддержано лучшими сообществами и волонтерскими фондами:
             </p>
-            <div style="display: flex; justify-content: space-around; opacity: 0.5;">
-                 <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='20'><text x='0' y='15' font-size='14' fill='%236A6A6A'>FOND-A</text></svg>" alt="FOND-A">
-                 <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='20'><text x='0' y='15' font-size='14' fill='%236A6A6A'>COMMUNITY</text></svg>" alt="COMMUNITY">
-                 <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='20'><text x='0' y='15' font-size='14' fill='%236A6A6A'>TRUST</text></svg>" alt="TRUST">
-                 <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='20'><text x='0' y='15' font-size='14' fill='%236A6A6A'>LIFE-UP</text></svg>" alt="LIFE-UP">
+            <div class="company-logos">
+                 <img src="data:image/svg+xml;utf8,<svg xmlns='[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)' width='80' height='20'><text x='0' y='15' font-size='14' fill='%236A6A6A'>FOND-A</text></svg>" alt="FOND-A">
+                 <img src="data:image/svg+xml;utf8,<svg xmlns='[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)' width='80' height='20'><text x='0' y='15' font-size='14' fill='%236A6A6A'>COMMUNITY</text></svg>" alt="COMMUNITY">
+                 <img src="data:image/svg+xml;utf8,<svg xmlns='[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)' width='80' height='20'><text x='0' y='15' font-size='14' fill='%236A6A6A'>TRUST</text></svg>" alt="TRUST">
+                 <img src="data:image/svg+xml;utf8,<svg xmlns='[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)' width='80' height='20'><text x='0' y='15' font-size='14' fill='%236A6A6A'>LIFE-UP</text></svg>" alt="LIFE-UP">
             </div>
         </section>
         
         <section id="development" class="development-section container">
-            <h2>Этапы Развития Проекта "Спасибо"</h2>
+            <h2>Наш Путь: Этапы Развития Социального Проекта "Спасибо"</h2>
             <div class="development-content">
                 <div class="development-step">
                     <i class="development-icon bi bi-mic-fill"></i>
                     <div class="development-text">
                         <h3>Фаза 1: Голосовое "Спасибо"</h3>
-                        <p>Начальный этап фокусируется на создании простого и личного способа **записать короткое голосовое сообщение благодарности или поддержки**. Это позволяет сохранить искренность и теплоту голоса.</p>
+                        <p>Начальный этап фокусируется на создании простого и личного способа **записать короткое голосовое сообщение благодарности или поддержки**. Это позволяет сохранить искренность и теплоту голоса, передавая эмоции без искажений. Цель — дать возможность каждому выразить то, что действительно важно.</p>
                     </div>
                 </div>
                 <div class="development-step">
                     <i class="development-icon bi bi-chat-text-fill"></i>
                     <div class="development-text">
-                        <h3>Фаза 2: Платформа Тёплых Слов</h3>
-                        <p>Проект расширяется до полноценной **"Платформы Тёплых Слов"**, добавляя текстовые сообщения, возможность анонимного запроса поддержки и инструменты для сохранения и перечитывания полученных слов.</p>
+                        <h3>Фаза 2: Платформа Тёплых Слов от DomoFone</h3>
+                        <p>Проект расширяется до полноценной **"Платформы Тёплых Слов"**, добавляя текстовые сообщения, возможность анонимного запроса поддержки и инструменты для сохранения и перечитывания полученных слов. Мы создаем полноценную экосистему для обмена позитивными эмоциями и взаимопомощи, укрепляя социальные связи.</p>
                     </div>
                 </div>
             </div>
         </section>
 
 
-        <section class="container section-blocks">
+        <section id="usecases" class="container section-blocks">
             
             <div class="block-card-alt">
                 <div>
-                    <h3>Примеры использования</h3>
+                    <h3>Примеры использования Проекта "Спасибо"</h3>
                     <p class="caption">
-                        Проект "Спасибо" предлагает различные сценарии для людей, команд и сообществ.
+                        Проект "Спасибо" от DomoFone предлагает универсальные сценарии для людей, команд и сообществ, желающих наладить глубокую эмоциональную связь и культуру благодарности.
                     </p>
                     <div class="content">
                          <p>
-                            **Для Личности:** Вы не знаете, как сказать "Спасибо" за помощь в трудный день, или просто чувствуете себя одиноко и нуждаетесь в словах поддержки.
+                            **Для Личности:** Вы не знаете, как выразить искреннюю благодарность за небольшую, но важную помощь в трудный день, или просто чувствуете себя одиноко и нуждаетесь в словах поддержки, чтобы преодолеть сложную ситуацию.
                          </p>
                          <p>
-                            **Для Команды/Сообщества:** Установите внутренний канал, где члены группы могут анонимно выразить признательность за моральную поддержку, укрепляя связь.
+                            **Для Команды/Сообщества:** Установите внутренний канал, где коллеги или члены группы могут анонимно или открыто выразить признательность за моральную поддержку, вклад в общее дело или просто доброе отношение, укрепляя командный дух и сплоченность.
                          </p>
                     </div>
                 </div>
-                <a href="#" class="btn-learn-more">Узнать больше →</a>
+                <a href="#" class="btn-learn-more">Узнать больше о применении →</a>
             </div>
             
             <div class="block-card-alt">
                 <div>
-                    <h3>Роль в Обществе</h3>
+                    <h3>Роль в Обществе: Усиление Человечности</h3>
                     <p class="caption">
-                        Усиление вовлеченности и моральной поддержки, создавая безопасную и позитивную платформу.
+                        "Спасибо" помогает обществу, создавая безопасную и позитивную платформу для взаимной поддержки и морального подъема.
                     </p>
                     <div class="content">
                         <p>
-                           Мы верим, что культура искренней благодарности и внимания к чужим трудностям — это основа здорового общества. **Вовлекайте** свою аудиторию, предлагая им простой и мощный инструмент для выражения эмоций.
+                           Мы верим, что культура искренней благодарности и внимания к чужим трудностям — это основа здорового и сплоченного общества. Проект DomoFone позволяет **вовлекать** широкую аудиторию, предлагая им простой и мощный инструмент для выражения эмоций, который преобразует абстрактную вежливость в **реальную опору** и социальный капитал.
                         </p>
                     </div>
                 </div>
-                <div class="visual">
+                <div class="visual bank">
                     </div>
+                <a href="#" class="btn-learn-more">Присоединиться к Миссии →</a>
             </div>
         </section>
 
         <section class="timer-section">
             <div class="container">
-                <h2>До официального запуска Платформы Тёплых Слов осталось:</h2>
+                <h2>До официального запуска Полноценной Платформы Тёплых Слов осталось:</h2>
                 <div id="countdown" class="countdown-timer">
                     <div class="timer-unit"><span id="days">00</span><span class="timer-label">Дней</span></div>
                     <div class="timer-unit"><span id="hours">00</span><span class="timer-label">Часов</span></div>
@@ -538,8 +649,8 @@
         </section>
     </main>
     
-    <footer style="text-align: center; padding: 30px 0; background-color: white; border-top: 1px solid #EAEAEA; color: var(--color-text-medium);">
-        &copy; 2025 Проект "Спасибо". Все права защищены.
+    <footer style="text-align: center; padding: 30px 0; background-color: white; border-top: 1px solid #EAEAEA; color: var(--color-text-medium); font-size: 0.9rem;">
+        &copy; 2025 Социальный Проект "Спасибо" от DomoFone. Все права защищены.
     </footer>
 
     <script>
