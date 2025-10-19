@@ -44,6 +44,9 @@
             <button onclick="sendInstruction()" class="cta-button">
                 📨 Отправить инструкцию в Telegram
             </button>
+            <p style="color: white; margin-top: 15px; opacity: 0.8;">
+                Или перейди прямо в бота: <a href="https://t.me/Spasibotebe_bot" style="color: white; text-decoration: underline;">@Spasibotebe_bot</a>
+            </p>
         </section>
 
         <footer>
@@ -53,13 +56,23 @@
 
     <script>
         function sendInstruction() {
-            const telegramUrl = `https://t.me/${getBotUsername()}/start`;
+            // Прямая ссылка на бота с командой start
+            const telegramUrl = 'https://t.me/Spasibotebe_bot?start=from_webapp';
             window.open(telegramUrl, '_blank');
         }
 
-        function getBotUsername() {
-            // Замените на username вашего бота
-            return 'YourBotUsername_bot'; 
+        // Автоматическое открытие Telegram при загрузке в Mini App
+        if (window.Telegram && Telegram.WebApp) {
+            Telegram.WebApp.ready();
+            Telegram.WebApp.expand();
+            
+            // Показываем кнопку для открытия бота внутри Telegram
+            const mainButton = Telegram.WebApp.MainButton;
+            mainButton.setText("📝 Записать благодарность");
+            mainButton.onClick(function() {
+                Telegram.WebApp.openTelegramLink('https://t.me/Spasibotebe_bot?start=from_mini_app');
+            });
+            mainButton.show();
         }
     </script>
 </body>
