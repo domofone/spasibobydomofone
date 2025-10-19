@@ -199,10 +199,10 @@
       <div id="download-btn" class="btn btn-success hidden">⬇ Скачать</div>
     </div>
 
-    <input type="email" id="email-input" class="email-input" placeholder="Email получателя (необязательно)" />
+    <input type="email" id="email-input" class="email-input" placeholder="Email получателя" />
 
-    <div id="send-btn" class="btn btn-send hidden">Отправить по email</div>
-    <div id="reset-btn" class="btn btn-reset hidden">Начать заново</div>
+    <div id="send-btn" class="btn btn-send hidden">📧 Отправить по email</div>
+    <div id="reset-btn" class="btn btn-reset hidden">🔄 Начать заново</div>
 
     <div id="status" class="status hidden"></div>
 
@@ -273,11 +273,6 @@
         audioBlob = new Blob(chunks, { type: 'audio/webm' });
         chunks = [];
 
-        // Сохраняем в localStorage
-        const audioUrl = URL.createObjectURL(audioBlob);
-        const audioId = Date.now().toString(36) + Math.random().toString(36).substr(2);
-        localStorage.setItem(`audio_${audioId}`, audioUrl);
-
         showStatus('Запись завершена! Теперь можно отправить.', 'success');
       } else {
         // Начать запись
@@ -337,22 +332,47 @@
         return;
       }
 
-      // Генерируем уникальный ID
-      const audioId = Date.now().toString(36) + Math.random().toString(36).substr(2);
-      const listenUrl = `${window.location.origin}/listen?audio=${audioId}`;
+      if (!email) {
+        showStatus('Пожалуйста, введите email получателя!', 'error');
+        return;
+      }
 
-      // Отправляем письмо
-      sendEmail(email, listenUrl)
-        .then(() => {
-          showStatus('Письмо отправлено! Получатель скоро услышит ваше сообщение.', 'success');
-          setTimeout(() => {
-            thankYouEl.classList.remove('hidden');
-            document.querySelector('.container').classList.add('hidden');
-          }, 1500);
+      // Конвертируем аудио в base64
+      const reader = new FileReader();
+      reader.onload = function() {
+        const base64Audio = reader.result.split(',')[1]; // Убираем audio/webm;base64,
+        const audioId = Date.now().toString(36) + Math.random().toString(36).substr(2);
+        
+        // Отправляем в бота через fetch
+        fetch('/api/bot', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            type: 'send_voice_email',
+            audioId: audioId,
+            audioData: base64Audio,
+            email: email
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            showStatus('Письмо отправлено! Получатель скоро услышит ваше сообщение.', 'success');
+            setTimeout(() => {
+              thankYouEl.classList.remove('hidden');
+              document.querySelector('.container').classList.add('hidden');
+            }, 1500);
+          } else {
+            showStatus('Ошибка: ' + data.error, 'error');
+          }
         })
         .catch(err => {
-          showStatus('Ошибка отправки: ' + err.message, 'error');
+          showStatus('Ошибка сети: ' + err.message, 'error');
         });
+      };
+      reader.readAsDataURL(audioBlob);
     });
 
     // Сброс
@@ -387,36 +407,6 @@
       setTimeout(() => {
         statusEl.classList.add('hidden');
       }, 3000);
-    }
-
-    // Функция отправки email через serverless
-    async function sendEmail(toEmail, listenUrl) {
-      const response = await fetch('/api/send-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          to: toEmail,
-          subject: 'Тебе спасибо! ❤️',
-          body: `
-Привет!
-
-Я хотел(а) сказать тебе спасибо за то, что ты есть. Ты делаешь мою жизнь лучше — просто будучи собой.
-
-Послушай моё голосовое сообщение — оно для тебя, с любовью:
-${listenUrl}
-
-С теплом,
-Твой друг ❤️
-          `,
-        }),
-      });
-
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error || 'Не удалось отправить письмо');
-      }
     }
   </script>
 </body>
