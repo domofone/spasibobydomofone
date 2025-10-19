@@ -3,169 +3,438 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Спасибо - Проект благодарности</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Проект "Спасибо": Где Слышат Каждое Слово</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Общие стили и сброс */
+        :root {
+            --color-dark-blue: #0e0e1a; /* Основной фон, очень темный */
+            --color-navy: #1a1a2e; /* Фон блоков */
+            --color-accent-purple: #8A2BE2; /* Яркий фиолетовый для акцентов (как в оригинале) */
+            --color-text-light: #e0e0f8; /* Светлый текст */
+            --color-text-medium: #a0a0c0; /* Серый текст */
+            --font-main: 'Poppins', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            color: var(--color-text-light);
+            background-color: var(--color-dark-blue);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        a {
+            color: var(--color-accent-purple);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #af60f0;
+        }
+
+        /* Навигация */
+        .header {
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-text-light);
+        }
+
+        .nav-links a {
+            margin-left: 30px;
+            color: var(--color-text-medium);
+            font-weight: 600;
+        }
+
+        .nav-button {
+            background-color: var(--color-accent-purple);
+            color: var(--color-text-light);
+            padding: 8px 18px;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .nav-button:hover {
+            background-color: #6a0dad;
+        }
+
+        /* Главный экран */
+        .hero {
+            text-align: center;
+            padding: 100px 0 80px;
+            position: relative;
+            overflow: hidden;
+            /* Имитация фона как на оригинальном изображении */
+            background-image: linear-gradient(rgba(14, 14, 26, 0.7), rgba(14, 14, 26, 0.9)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><filter id="f1" x="0" y="0" width="200%" height="200%"><feGaussianBlur in="SourceGraphic" stdDeviation="1" /></filter></defs><rect width="100" height="100" fill="%231A1A2E"/><circle cx="30" cy="70" r="25" fill="%238A2BE2" filter="url(%23f1)" opacity="0.1"/><circle cx="80" cy="40" r="30" fill="%238A2BE2" filter="url(%23f1)" opacity="0.15"/></svg>');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .hero h3 {
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: var(--color-text-medium);
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        .btn-primary {
+            background-color: var(--color-accent-purple);
+            color: var(--color-text-light);
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: inline-block;
+            transition: background-color 0.3s, transform 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: #6a0dad;
+            transform: translateY(-2px);
+        }
+
+        /* Блок "Что такое..." */
+        .section-intro {
+            padding: 60px 0;
+        }
+
+        .section-intro h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .intro-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .intro-text p {
+            font-size: 1.1rem;
+            color: var(--color-text-medium);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 40px 0 80px;
+        }
+
+        .feature-card {
+            background-color: var(--color-navy);
+            padding: 30px;
+            border-radius: 12px;
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: background-color 0.3s;
+        }
+
+        .feature-card:hover {
+            background-color: #2c2c4a;
+        }
+
+        .feature-card h3 {
+            color: var(--color-accent-purple);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            color: var(--color-text-medium);
+            font-size: 0.95rem;
+        }
+
+        /* Блоки Use Cases и Business */
+        .section-blocks {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            padding-bottom: 80px;
+        }
+
+        .block-card {
+            background-color: var(--color-navy);
+            padding: 40px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .block-card h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--color-text-light);
+        }
+
+        .block-card p {
+            color: var(--color-text-medium);
+            margin-bottom: 15px;
+        }
+
+        /* Блок Этап развития */
+        .section-development {
+            background-color: #151525;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .development-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--color-accent-purple);
+        }
+
+        .development-text p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            color: var(--color-text-light);
+        }
+
+        /* Таймер */
+        .timer-section {
+            text-align: center;
+            padding: 60px 0 100px;
+        }
+
+        .timer-section h2 {
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--color-accent-purple);
+        }
+
+        .timer-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: var(--color-navy);
+            padding: 20px 30px;
+            border-radius: 10px;
+            min-width: 120px;
+        }
+
+        .timer-label {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: var(--color-text-medium);
+            margin-top: 5px;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            .intro-grid {
+                grid-template-columns: 1fr;
+            }
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .section-blocks {
+                grid-template-columns: 1fr;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .nav-links {
+                display: none;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .countdown-timer {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+            .timer-unit {
+                min-width: 100px;
+                padding: 15px 20px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Добавьте этот раздел перед </div> -->
-<section class="debug" style="background: white; padding: 20px; border-radius: 10px; margin-top: 20px; display: none;" id="debugSection">
-    <h3>🛠 Диагностика</h3>
-    <button onclick="checkWebhook()" class="cta-button" style="background: #666; margin: 5px;">
-        Проверить статус вебхука
-    </button>
-    <button onclick="setWebhook()" class="cta-button" style="background: #666; margin: 5px;">
-        Установить вебхук
-    </button>
-    <div id="debugResult" style="margin-top: 10px; padding: 10px; background: #f5f5f5; border-radius: 5px;"></div>
-</section>
-    <!-- Добавьте этот раздел перед </div> -->
-<section class="debug" style="background: white; padding: 20px; border-radius: 10px; margin-top: 20px; display: none;" id="debugSection">
-    <h3>🛠 Диагностика</h3>
-    <button onclick="checkWebhook()" class="cta-button" style="background: #666; margin: 5px;">
-        Проверить статус вебхука
-    </button>
-    <button onclick="setWebhook()" class="cta-button" style="background: #666; margin: 5px;">
-        Установить вебхук
-    </button>
-    <div id="debugResult" style="margin-top: 10px; padding: 10px; background: #f5f5f5; border-radius: 5px;"></div>
-</section>
 
-<script>
-// Показать диагностику при долгом нажатии на заголовок
-let tapCount = 0;
-document.querySelector('h1').addEventListener('click', function() {
-    tapCount++;
-    if (tapCount >= 5) {
-        document.getElementById('debugSection').style.display = 'block';
-        tapCount = 0;
-    }
-});
+    <header class="header container">
+        <div class="logo">СПАСИБО</div>
+        <nav class="nav-links">
+            <a href="#about">О Проекте</a>
+            <a href="#development">Развитие</a>
+            <a href="#usecases">Применение</a>
+            <a href="#" class="nav-button">Сказать Спасибо</a>
+        </nav>
+    </header>
 
-async function checkWebhook() {
-    try {
-        const response = await fetch('/api/bot');
-        const result = await response.json();
-        document.getElementById('debugResult').innerHTML = 
-            '<pre>' + JSON.stringify(result, null, 2) + '</pre>';
-    } catch (error) {
-        document.getElementById('debugResult').innerHTML = 'Ошибка: ' + error;
-    }
-}
-
-async function setWebhook() {
-    try {
-        const response = await fetch('/api/set-webhook', { method: 'POST' });
-        const result = await response.json();
-        document.getElementById('debugResult').innerHTML = 
-            'Webhook установлен: ' + JSON.stringify(result, null, 2);
-    } catch (error) {
-        document.getElementById('debugResult').innerHTML = 'Ошибка: ' + error;
-    }
-}
-</script>
-
-<script>
-// Показать диагностику при долгом нажатии на заголовок
-let tapCount = 0;
-document.querySelector('h1').addEventListener('click', function() {
-    tapCount++;
-    if (tapCount >= 5) {
-        document.getElementById('debugSection').style.display = 'block';
-        tapCount = 0;
-    }
-});
-
-async function checkWebhook() {
-    try {
-        const response = await fetch('/api/bot');
-        const result = await response.json();
-        document.getElementById('debugResult').innerHTML = 
-            '<pre>' + JSON.stringify(result, null, 2) + '</pre>';
-    } catch (error) {
-        document.getElementById('debugResult').innerHTML = 'Ошибка: ' + error;
-    }
-}
-
-async function setWebhook() {
-    try {
-        const response = await fetch('/api/set-webhook', { method: 'POST' });
-        const result = await response.json();
-        document.getElementById('debugResult').innerHTML = 
-            'Webhook установлен: ' + JSON.stringify(result, null, 2);
-    } catch (error) {
-        document.getElementById('debugResult').innerHTML = 'Ошибка: ' + error;
-    }
-}
-</script>
-    <div class="container">
-        <header>
-            <h1>❤️ Спасибо</h1>
-            <p class="subtitle">Социальный проект благодарности</p>
-        </header>
-
+    <main>
         <section class="hero">
-            <h2>Скажи "Спасибо" просто так</h2>
-            <p>За то, что у тебя есть дорогой человек. За тепло, поддержку и просто за то, что он есть в твоей жизни.</p>
+            <div class="container">
+                <h1>Где Слышат Каждое Слово</h1>
+                <h3>Программная, искренняя инициатива, созданная, чтобы сделать благодарность и поддержку доступными и значимыми даже в самые трудные моменты.</h3>
+                <a href="#about" class="btn-primary">Узнать, как работает "Спасибо"</a>
+            </div>
         </section>
 
-        <section class="how-it-works">
-            <h3>Как это работает?</h3>
-            <div class="steps">
-                <div class="step">
-                    <span>1</span>
-                    <p>Нажми кнопку ниже для инструкции</p>
+        <section id="about" class="section-intro container">
+            <div class="intro-grid">
+                <div class="intro-text">
+                    <h2>Что такое проект "Спасибо"?</h2>
+                    <p>Проект "Спасибо" – это пространство, где слова благодарности и поддержки обретают вес. Мы помогаем Вам быть **услышанными** и напоминаем, что даже самое маленькое "спасибо" может стать опорой в сложной ситуации.</p>
+                    <a href="#development" style="margin-top: 20px; display: inline-block;">Узнать о нашей миссии →</a>
                 </div>
-                <div class="step">
-                    <span>2</span>
-                    <p>Запиши голосовое сообщение с благодарностью</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Слово, которое меняет жизнь</h3>
+                    <p>Выражайте искреннюю благодарность или просите о поддержке, когда это действительно нужно. Получайте моральную "отдачу" и чувство связи.</p>
                 </div>
-                <div class="step">
-                    <span>3</span>
-                    <p>Укажи email получателя</p>
+                <div class="feature-card">
+                    <h3>Всегда актуально, всегда доступно</h3>
+                    <p>Независимо от времени и места, Вы можете отправить или получить сообщение, когда это жизненно важно. Наша платформа — Ваша тихая гавань.</p>
                 </div>
-                <div class="step">
-                    <span>4</span>
-                    <p>Мы анонимно отправим твою благодарность!</p>
+                <div class="feature-card">
+                    <h3>100% фокус на эмоциях</h3>
+                    <p>Вам не нужно беспокоиться о механизмах. Просто говорите "Спасибо" или "Мне нужна поддержка". Мы обеспечим конфиденциальность и доставку.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="development" class="section-development">
+            <div class="container development-text">
+                <h2>Наш Путь: От Голоса к Платформе</h2>
+                <p>
+                    Мы начинаем с самого простого и личного — **возможности записать голосовое "Спасибо"**. Это Ваш первый шаг к искренности. Вследствие развития, проект трансформируется в "Платформу Тёплых Слов", предлагая текстовые сообщения, анонимную поддержку и инструменты для создания культуры благодарности в сообществах.
+                </p>
+                <p>
+                    Мы растем вместе с Вашими словами, чтобы каждый человек мог чувствовать себя услышанным и ценным.
+                </p>
+                <a href="#" class="btn-primary">Посмотреть Roadmap</a>
+            </div>
+        </section>
+
+
+        <section id="usecases" class="container">
+             <div class="section-blocks">
+                <div class="block-card">
+                    <h2>Примеры использования</h2>
+                    <p>Проект "Спасибо" предлагает различные сценарии для людей, команд и сообществ, желающих наладить глубокую эмоциональную связь и культуру благодарности.</p>
+                    
+                    <p><strong>Для Личности:</strong> Вы не знаете, как сказать "Спасибо" за небольшую, но важную помощь в трудный день, или просто чувствуете себя одиноко и нуждаетесь в словах поддержки.</p>
+                    
+                    <p><strong>Для Сообщества:</strong> Установите внутренний канал, где члены группы могут анонимно выразить признательность за моральную поддержку или важную работу.</p>
+                    <a href="#" class="btn-primary" style="margin-top: auto;">Узнать больше</a>
+                </div>
+                
+                <div class="block-card">
+                    <h2>Роль в Обществе</h2>
+                    <p><strong>Усиление Человечности.</strong> Проект "Спасибо" помогает обществу, создавая безопасную и позитивную платформу для **взаимной поддержки** и **морального подъема**.</p>
+                    <p>Мы верим, что культура искренней благодарности и внимания к чужим трудностям — это основа здорового общества. Вовлекайте свою аудиторию, предлагая им простой и мощный инструмент для выражения эмоций.</p>
+                    <a href="#" class="btn-primary" style="margin-top: auto;">Присоединиться к Миссии</a>
                 </div>
             </div>
         </section>
 
-        <section class="cta">
-            <button onclick="sendInstruction()" class="cta-button">
-                📨 Отправить инструкцию в Telegram
-            </button>
-            <p style="color: white; margin-top: 15px; opacity: 0.8;">
-                Или перейди прямо в бота: <a href="https://t.me/Spasibotebe_bot" style="color: white; text-decoration: underline;">@Spasibotebe_bot</a>
-            </p>
+        <section class="timer-section container">
+            <h2>Не откладывайте слова, которые могут спасти чей-то день.</h2>
+            <p style="color: var(--color-accent-purple); font-size: 1.2rem; margin-bottom: 15px;">До официального запуска Платформы Тёплых Слов:</p>
+            <div id="countdown" class="countdown-timer">
+                <div class="timer-unit"><span id="days">00</span><span class="timer-label">Дней</span></div>
+                <div class="timer-unit"><span id="hours">00</span><span class="timer-label">Часов</span></div>
+                <div class="timer-unit"><span id="minutes">00</span><span class="timer-label">Минут</span></div>
+                <div class="timer-unit"><span id="seconds">00</span><span class="timer-label">Секунд</span></div>
+            </div>
         </section>
-
-        <footer>
-            <p>С любовью к миру ❤️</p>
-        </footer>
-    </div>
+    </main>
+    
+    <footer style="text-align: center; padding: 30px 0; border-top: 1px solid var(--color-navy); color: var(--color-text-medium);">
+        &copy; 2025 Проект "Спасибо". Все права защищены.
+    </footer>
 
     <script>
-        function sendInstruction() {
-            // Прямая ссылка на бота с командой start
-            const telegramUrl = 'https://t.me/Spasibotebe_bot?start=from_webapp';
-            window.open(telegramUrl, '_blank');
+        function updateCountdown() {
+            // Установка целевой даты и времени (20 октября 2025 - 10:00:00)
+            const targetDate = new Date("October 20, 2025 10:00:00").getTime();
+            
+            // Получение текущего времени
+            const now = new Date().getTime();
+            
+            // Расчет разницы
+            const distance = targetDate - now;
+
+            // Расчет времени для дней, часов, минут и секунд
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Функция для добавления ведущего нуля
+            const pad = (num) => num < 10 ? '0' + num : num;
+
+            // Обновление элементов на странице
+            document.getElementById("days").innerHTML = pad(days);
+            document.getElementById("hours").innerHTML = pad(hours);
+            document.getElementById("minutes").innerHTML = pad(minutes);
+            document.getElementById("seconds").innerHTML = pad(seconds);
+
+            // Если время вышло, пишем сообщение
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById("countdown").innerHTML = "ПЛАТФОРМА УЖЕ ЗАПУЩЕНА!";
+                document.getElementById("countdown").style.fontSize = "2rem";
+                document.getElementById("countdown").style.color = "#00FF00"; // Зеленый акцент
+            }
         }
 
-        // Автоматическое открытие Telegram при загрузке в Mini App
-        if (window.Telegram && Telegram.WebApp) {
-            Telegram.WebApp.ready();
-            Telegram.WebApp.expand();
-            
-            // Показываем кнопку для открытия бота внутри Telegram
-            const mainButton = Telegram.WebApp.MainButton;
-            mainButton.setText("📝 Записать благодарность");
-            mainButton.onClick(function() {
-                Telegram.WebApp.openTelegramLink('https://t.me/Spasibotebe_bot?start=from_mini_app');
-            });
-            mainButton.show();
-        }
+        // Вызываем функцию один раз, чтобы избежать задержки в 1 секунду при загрузке
+        updateCountdown();
+
+        // Обновление каждую секунду
+        const countdownInterval = setInterval(updateCountdown, 1000);
     </script>
 </body>
 </html>
-
-
